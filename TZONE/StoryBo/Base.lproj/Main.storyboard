@@ -107,13 +107,13 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNJ-m4-h1P">
                                                 <rect key="frame" x="35" y="249" width="22" height="22"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="22" id="hOi-sG-if9"/>
-                                                    <constraint firstAttribute="width" constant="22" id="uSW-Qk-exx"/>
+                                                    <constraint firstAttribute="height" constant="20" id="hOi-sG-if9"/>
+                                                    <constraint firstAttribute="width" constant="20" id="uSW-Qk-exx"/>
                                                 </constraints>
                                                 <color key="tintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="corner">
-                                                        <real key="value" value="11"/>
+                                                        <real key="value" value="10"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderwidth">
                                                         <real key="value" value="2"/>
@@ -610,13 +610,13 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rPf-tg-qQ6">
                                                 <rect key="frame" x="30" y="226" width="22" height="22"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="22" id="CP2-tR-fbC"/>
-                                                    <constraint firstAttribute="height" constant="22" id="Kr2-NV-8lK"/>
+                                                    <constraint firstAttribute="width" constant="20" id="CP2-tR-fbC"/>
+                                                    <constraint firstAttribute="height" constant="20" id="Kr2-NV-8lK"/>
                                                 </constraints>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="corner">
-                                                        <real key="value" value="11"/>
+                                                        <real key="value" value="10"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="bordercolor">
                                                         <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5606,20 +5606,23 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvf-iR-lQ6">
                                                         <rect key="frame" x="20" y="272.5" width="18" height="18"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="18" id="D9R-90-gmy"/>
-                                                            <constraint firstAttribute="width" constant="18" id="yGo-Ij-sqp"/>
+                                                            <constraint firstAttribute="height" constant="20" id="D9R-90-gmy"/>
+                                                            <constraint firstAttribute="width" constant="20" id="yGo-Ij-sqp"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="borderwidth">
                                                                 <real key="value" value="2"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="corner">
-                                                                <real key="value" value="11"/>
+                                                                <real key="value" value="10"/>
                                                             </userDefinedRuntimeAttribute>
                                                             <userDefinedRuntimeAttribute type="color" keyPath="bordercolor">
                                                                 <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="checkBoxBtn:" destination="Edg-9X-oIC" eventType="touchUpInside" id="vBE-wY-Bfa"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your payment information is safe with us. We use secure transmission and encrypted storage." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lX-uN-cmQ">
                                                         <rect key="frame" x="48" y="258" width="275" height="47"/>
@@ -5705,6 +5708,7 @@
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="ConfirmButton" destination="01T-ly-QyL" id="678-fC-LBE"/>
+                        <outlet property="RadioButton" destination="vvf-iR-lQ6" id="zKs-rl-ZJJ"/>
                         <outlet property="ViewDriverDetails" destination="pUG-0B-wYj" id="gzX-Rk-w11"/>
                         <outlet property="ViewSummary" destination="9at-ox-Pbh" id="KZ9-0n-cPI"/>
                     </connections>
