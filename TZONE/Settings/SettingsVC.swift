@@ -45,9 +45,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var Btncurrency: UIButton!
     @IBOutlet weak var btnLanguage: UIButton!
     
-    var countries: [String] = ["Egypt", "Londone", "parice"]
-    var lang = ["العربية","English"]
-    let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"] // List of currencies
+    var countries: [String]  = []
+    var lang : [String] = ["العربية","English"]
+    let currencyArray : [String] = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"] // List of currencies
     
     
     override func viewDidLoad() {
@@ -59,7 +59,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         pickerCurrency.dataSource = self
         pickerCountry.delegate = self
         pickerCountry.dataSource = self
-        
+        btnLanguage.setTitleColor( #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .selected)
+        btnCuntry.setTitleColor( #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .selected)
+        Btncurrency.setTitleColor( #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .selected)
         pickerCountry.setValue(UIColor.white, forKeyPath: "textColor")
         pickerCurrency.setValue(UIColor.white, forKeyPath: "textColor")
         pickerLangouge.setValue(UIColor.white, forKeyPath: "textColor")
@@ -93,26 +95,38 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == pickerLangouge{
-            btnLanguage.setTitle(lang[row], for: .normal)
+            return lang[row]
         }
         else if pickerView == pickerCountry {
-           btnCuntry.setTitle(countries[row], for: .normal)
+            return countries[row]
         }else{
-             Btncurrency.setTitle(currencyArray[row], for: .normal)
+            return currencyArray[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == pickerLangouge{
+            let select = lang[row]
+            btnLanguage.setTitle(select, for: .normal)
+        }
+        else if pickerView == pickerCountry {
+           btnCuntry.setTitle("\(countries[row])", for: .normal)
+        }else{
+             Btncurrency.setTitle("\(currencyArray[row])", for: .normal)
         }
         
     }
+    
+    
     @IBAction func CancelAction(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func currencyAction(_ sender: Any) {
         self.currencyDone.isHidden = false
-        Btncurrency.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        btnCuntry.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        btnLanguage.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+       
         pickerLangouge.isHidden = true
         pickerCountry.isHidden = true
         pickerCurrency.isHidden = false
@@ -121,9 +135,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func cuntryAction(_ sender: Any) {
         self.countryDone.isHidden = false
         
-        Btncurrency.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        btnCuntry.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        btnLanguage.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        
         pickerLangouge.isHidden = true
         pickerCountry.isHidden = false
         pickerCurrency.isHidden = true
@@ -131,9 +143,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     @IBAction func languageAction(_ sender: Any) {
         self.langDone.isHidden = false
-        Btncurrency.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        btnCuntry.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        btnLanguage.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         pickerLangouge.isHidden = false
         pickerCountry.isHidden = true
         pickerCurrency.isHidden = true
