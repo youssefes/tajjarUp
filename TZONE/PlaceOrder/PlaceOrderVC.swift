@@ -20,7 +20,7 @@ class PlaceOrderVC: UIViewController {
     @IBOutlet weak var ViewSummary: UIView!
 
     @IBOutlet weak var RadioButton : UIButton!
-    
+    var order = ""
     var Jsondata = [String : Any]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +98,15 @@ class PlaceOrderVC: UIViewController {
         creditBtn.isSelected = false
         animationCheckBtn(sender: sender)
         self.containerWeb.isHidden = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is WebViewPay
+        {
+            let vc = segue.destination as? WebViewPay
+            vc?.orderId = order
+        }
     }
     
 }

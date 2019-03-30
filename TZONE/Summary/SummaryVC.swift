@@ -119,6 +119,9 @@ class SummaryVC: UIViewController {
 
     @IBAction func confiermBooking(_ sender: UIButton) {
         
+       
+        
+        
         if myBokking.count > 0{
             if let vc = storyboard?.instantiateViewController(withIdentifier: "main"){
                 present(vc, animated: true, completion: nil)
@@ -129,6 +132,7 @@ class SummaryVC: UIViewController {
                     PlaceOrderVC{
                     
                     vc.Jsondata = self.AllData
+                    vc.order = self.OrderIDSummary
                     
                     present(vc, animated: true, completion: nil)
                     

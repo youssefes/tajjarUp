@@ -10,17 +10,21 @@ import UIKit
 import WebKit
 
 class WebViewPay: UIViewController,WKNavigationDelegate {
-
     var webView : WKWebView!
-    var orderId  = ""
+    var orderId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("orderId")
+        let url = URL(string: "http://prosolutions-it.com/tajjer/live_payment/index.php?order_id=\(orderId)")!
+        webView.load(URLRequest(url: url))
+        print("done \(orderId)")
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("orderId")
         let url = URL(string: "http://prosolutions-it.com/tajjer/live_payment/index.php?order_id=\(orderId)")!
         webView.load(URLRequest(url: url))
         print("done")
