@@ -121,7 +121,7 @@ class DetailsCarVC: UIViewController {
                 }
             }
         }else{
-            getCarInformations { (cardata, success) in
+            API.getCarInformations(carId : car_id) { (cardata, success) in
                 if success{
                     if let data = cardata{
                         self.setUpViewElement(carDetailsFromModel: data)
@@ -135,53 +135,6 @@ class DetailsCarVC: UIViewController {
         
     }
 
-    //MARK:- get car informations by id
-    func getCarInformations(complation : @escaping (_ dataOfCar : DetailsCarModelById?, _ status: Bool )-> Void){
-        let url = "http://prosolutions-it.com/tajjer/json/car_detailes.php?ID=\(car_id)"
-         let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        print(encodedUrl)
-        Alamofire.request(encodedUrl!).responseJSON { (respond) in
-            switch respond.result{
-            case .failure(let error):
-                print(error)
-                complation(nil, false)
-            case .success(let value):
-                print("car dateails Using Alamo \(value)")
-                
-               let data = JSON(value)
-                guard let car_Detai = data.dictionary else{
-                    return
-                }
-                
-                let ID = (car_Detai["ID"]?.string) ?? ""
-                self.car_id = ID
-                let Diesel = (car_Detai["Diesel"]?.string) ?? ""
-                let bags = car_Detai["bags"]?.string ?? ""
-                let Doors = car_Detai["Doors"]?.string ?? ""
-                let made_year = car_Detai["made_year"]?.string ?? ""
-                let main_img = car_Detai["main_img"]?.string ?? ""
-                let price = car_Detai["price"]?.string ?? ""
-                let price_offer = car_Detai["price_offer"]?.string ?? ""
-                let type_Motor = car_Detai["type_Motor"]?.string ?? ""
-                let Speed = car_Detai["Speed"]?.string ?? ""
-                let title_car = car_Detai["title_car"]?.string ?? ""
-                let Images = car_Detai["images"]?.array
-                let Power_Motor = car_Detai["Power_Motor"]?.string ?? ""
-                var imageAr = [String]()
-                var count = 0
-                for image in Images!{
-                    if let imag =  image["img\(count)"].string {
-                        imageAr.append(imag)
-                        count = count + 1
-                    }
-                    
-                }
-                let carDat = DetailsCarModelById.init(title_car: title_car, main_img: main_img, images: imageAr, iD: ID, price: price, price_offer: price_offer, made_year: made_year, diesel: Diesel, type_Motor: type_Motor, power_Motor: Power_Motor, doors: Doors, bags: bags, speed: Speed, total_pages: bags)
-                complation(carDat, true)
-            }
-        }
-       
-    }
     
     //MARK:- setup view Element
     func setUpViewElement(carDetailsFromModel: DetailsCarModelById){
@@ -220,7 +173,7 @@ class DetailsCarVC: UIViewController {
         let url = Globals.get_all
         let param = "type=1"
         Helper.POSTString(url: url, parameters: param) { (json, status) in
-            print("ffdfdfdfdfd",json)
+            
             if status {
                 
                 guard let json = json else {

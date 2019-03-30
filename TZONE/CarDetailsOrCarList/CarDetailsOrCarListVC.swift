@@ -167,10 +167,11 @@ class CarDetailsOrCarListVC: Segue,UICollectionViewDelegate,UICollectionViewData
        if let DetailsCar = self.storyboard?.instantiateViewController(withIdentifier: "DetailsCarVC") as? DetailsCarVC{
             if BookIngData.count > 0{
                 DetailsCar.Mybooki = BookIngData
-                DetailsCar.driver = self.driver
+                
             }
             DetailsCar.car_id = carIdSelected
             DetailsCar.orderId = self.OrderID
+            DetailsCar.driver = self.driver
         
             present(DetailsCar, animated: true, completion: nil)
         }

@@ -4,7 +4,7 @@
 target 'TZONE' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-  
+pod 'NHRangeSlider', '~> 0.2'
 pod 'Alamofire'
 pod 'SwiftyJSON', '~> 4.0'
 pod 'iOSDropDown'
@@ -14,7 +14,6 @@ pod 'Firebase/Core'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'Firebase/Messaging'
-pod 'SDWebImage', '~> 4.0'
 pod 'IQKeyboardManagerSwift'
 pod 'Kingfisher'
 end

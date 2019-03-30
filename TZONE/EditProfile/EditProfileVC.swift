@@ -156,9 +156,9 @@ class EditProfileVC: UIViewController {
         }
         let id = DataManager().callData("ID")
         print(id)
-        let UploadeImage = UIImagePNGRepresentation(self.ProfilImage.image!)
+        
         let Address = self.address.joined(separator: "-")
-        EditProfileAPI(user_pass: password, id: id , name: name, email: email, mobile: phone, address: Address, image: nil) { (massage, status) in
+        EditProfileAPI(user_pass: password, id: id , name: name, email: email, mobile: phone, address: Address) { (massage, status) in
             
             if status {
                
@@ -170,12 +170,92 @@ class EditProfileVC: UIViewController {
     }
 }
 extension EditProfileVC{
-    func EditProfileAPI(user_pass: String,id: String,name: String, email: String, mobile:String,address:String,image: String?, complatio : @escaping (_ dataMassage : String?, _ status : Bool)->Void) {
-        print(" my address is\(address)")
-      let url = "http://prosolutions-it.com/tajjer/json/change_pass.php?ID=\(id)&name=\(name)&email=\(email)&mobile=\(mobile)&img=\(image)&address=\(address)"
+    func EditProfileAPI(user_pass: String,id: String,name: String, email: String, mobile:String,address:String, complatio : @escaping (_ dataMassage : String?, _ status : Bool)->Void) {
         
-   
-    let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        
+        let url = "http://prosolutions-it.com/tajjer/json/change_pass.php?ID=\(id)&name=\(name)&email=\(email)&mobile=\(mobile)&address=\(address)"
+        
+        
+        
+        let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        
+        DispatchQueue.global(qos:.userInteractive).async {
+            
+            Alamofire.upload(multipartFormData: { (form : MultipartFormData) in
+                DispatchQueue.main.async {
+                    if let image_Data = UIImageJPEGRepresentation(self.ProfilImage.image!, 0.5){
+                        form.append(image_Data, withName: "img", fileName: "photo.jpeg", mimeType: "image/jpeg")
+                    }
+                }
+                
+                
+            }, usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold, to: encodedUrl!, method: .post, headers: nil) { (reselt : SessionManager.MultipartFormDataEncodingResult) in
+                switch reselt{
+                case .failure(let error):
+                    complatio(nil, false)
+                    print(error)
+                case .success(request: let upload, streamingFromDisk: _, streamFileURL: _):
+                    upload.uploadProgress(closure: { (progress) in
+                        print(progress)
+                    }).responseJSON(completionHandler: { (respond) in
+                        
+                        switch respond.result{
+                        case .failure(let error):
+                            print(" the is an error ->\(error)")
+                        case .success(let value):
+                            let json = JSON(value)
+                            guard let dataMassage = json["message"].string else {
+                                complatio(nil, false)
+                                return
+                            }
+                            print(dataMassage)
+                            complatio(dataMassage, true)
+                            
+                        }
+                    })
+                }
+            }
+            
+            
+            
+        }
+        
+        
+        
+//        Alamofire.upload(multipartFormData: { (multipartFormData) in
+//
+//            multipartFormData.append(UIImageJPEGRepresentation(self.ProfilImage.image!, 1)!, withName: "image", fileName: "swift_file.jpeg", mimeType: "image/jpeg")
+//        }, to: encodedUrl!)
+//        { (result) in
+//            switch result {
+//            case .success(let upload, _, _):
+//
+//                upload.uploadProgress(closure: { (progress) in
+//                    print(progress)
+//                })
+//
+//                upload.responseJSON { response in
+//                    switch response.result{
+//
+//                    case .failure(let error):
+//                        print(" the is an error ->\(error)")
+//                    case .success(let value):
+//                        let json = JSON(value)
+//                        guard let dataMassage = json["message"].string else {
+//                            complatio(nil, false)
+//                            return
+//                        }
+//                        print(dataMassage)
+//                        complatio(dataMassage, true)
+//
+//                    }
+//                }
+//            case .failure(let encodingError):
+//                print("encodingError.description")
+//            }
+//        }
+//
+        
 //        let parameters : Parameters  = [
 //            "user_pass" : user_pass,
 //            "name" : name,
@@ -186,22 +266,24 @@ extension EditProfileVC{
 //            ]
         
         
-        Alamofire.request(encodedUrl!, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON { (respond) in
-            switch respond.result{
-                
-            case .failure(let error):
-                print(" the is an error ->\(error)")
-            case .success(let value):
-                let json = JSON(value)
-                guard let dataMassage = json["message"].string else {
-                    complatio(nil, false)
-                    return
-                }
-                print(dataMassage)
-                complatio(dataMassage, true)
-                
-            }
-        }
+        
+        
+//        Alamofire.request(encodedUrl!, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON { (respond) in
+//            switch respond.result{
+//
+//            case .failure(let error):
+//                print(" the is an error ->\(error)")
+//            case .success(let value):
+//                let json = JSON(value)
+//                guard let dataMassage = json["message"].string else {
+//                    complatio(nil, false)
+//                    return
+//                }
+//                print(dataMassage)
+//                complatio(dataMassage, true)
+//
+//            }
+//        }
     }
 }
 

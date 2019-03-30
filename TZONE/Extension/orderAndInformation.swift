@@ -12,70 +12,55 @@ import Alamofire
 import SwiftyJSON
 
 
-//class API {
-//   class func getOrderHistoryOrMy_booking(url : String, complation : @escaping (_ status : Bool,_ data : [[String:Any]]? , _ booKingData : [MyBookingModel]?)->Void){
-//        
-//        
-//        let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-//        
-//        Alamofire.request(encodedUrl!, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: nil).responseJSON { (respond) in
-//            switch respond.result{
-//            case .failure(let error):
-//                complation(false, nil,nil)
-//                print(error)
-//            case .success(let value):
-//                let data = JSON(value)
-//                var ArrayData = [[String:Any]]()
-//                var bookingData = [MyBookingModel]()
-//                
-//                guard let car_detailes = data["car_detailes"].dictionaryObject else{
-//                    print("error to get cars")
-//                    return
-//                    
-//                }
-//                guard let id_order = data["id_order"].string else{
-//                    return
-//                }
-//                let date_order = data["date_order"].string
-//                let Picking_Up_Date = data["Picking_Up_Date"].string
-//                let Picking_Up_locations = data["Picking_Up_locations"].string
-//                let Picking_Up_Time = data["Picking_Up_Time"].string
-//                let Droping_off_locations = data["Droping_off_locations"].string
-//                let Droping_off_Date = data["Droping_off_Date"].string
-//                let Droping_off_Time = data["Droping_off_Time"].string
-//                guard let additional_specification = data["additional_specification"].arrayObject else{
-//                    return
-//                }
-//                
-//                let driver_first_name = data["driver_first_name"].string
-//                let driver_last_name = data["driver_last_name"].string
-//                let type = data["type"].string
-//                let driver_email = data["driver_email"].string
-//                let driver_mobile = data["driver_mobile"].string
-//                
-//                guard let prices_service = data["prices_services"].array else{
-//                    return
-//                }
-//                var prices_servicesArr = [prices_services]()
-//                for priceser in prices_service{
-//                    let price = priceser["price"].int
-//                    let name = priceser["name"].string
-//                    let pricServ = prices_services.init(name: name, price: price)
-//                    prices_servicesArr.append(pricServ)
-//                }
-//                
-//                let car_Id = data["car_id"].string
-//                let total = data["total"].int
-//                let total_days = data["total_days"].int
-//                let mem_id = data["mem_id"].int
-//                let bokkingdata = MyBookingModel.init(id_order: id_order, date_order: date_order, Picking_Up_Date: Picking_Up_Date, Picking_Up_locations: Picking_Up_locations, Picking_Up_Time: Picking_Up_Time, Droping_off_locations: Droping_off_locations!, Droping_off_Date: Droping_off_Date!, Droping_off_Time: Droping_off_Time, additional_specification: additional_specification as? [String], prices_services: prices_servicesArr, Car_Deatiles: nil, total: total, total_days: total_days, car_id: car_Id, mem_id: mem_id, driver_first_name: driver_first_name, driver_last_name: driver_last_name, type: type, driver_email: driver_email, driver_mobile: driver_mobile)
-//                bookingData.append(bokkingdata)
-//                ArrayData.append(car_detailes)
-//                
-//                complation(true, ArrayData,bookingData)
-//               
-//                }
-//            }
-//        }
-//        
-//}
+class API {
+    
+    //MARK:- get car informations by id
+    class func getCarInformations(carId : String ,complation : @escaping (_ dataOfCar : DetailsCarModelById?, _ status: Bool )-> Void){
+        let url = "http://prosolutions-it.com/tajjer/json/car_detailes.php?ID=\(carId)"
+        let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        print(encodedUrl)
+        Alamofire.request(encodedUrl!).responseJSON { (respond) in
+            switch respond.result{
+            case .failure(let error):
+                print(error)
+                complation(nil, false)
+            case .success(let value):
+                print("car dateails Using Alamo \(value)")
+                
+                let data = JSON(value)
+                guard let car_Detai = data.dictionary else{
+                    return
+                }
+                
+                let ID = (car_Detai["ID"]?.string) ?? ""
+                
+                let Diesel = (car_Detai["Diesel"]?.string) ?? ""
+                let bags = car_Detai["bags"]?.string ?? ""
+                let Doors = car_Detai["Doors"]?.string ?? ""
+                let made_year = car_Detai["made_year"]?.string ?? ""
+                let main_img = car_Detai["main_img"]?.string ?? ""
+                let price = car_Detai["price"]?.string ?? ""
+                let price_offer = car_Detai["price_offer"]?.string ?? ""
+                let type_Motor = car_Detai["type_Motor"]?.string ?? ""
+                let Speed = car_Detai["Speed"]?.string ?? ""
+                let title_car = car_Detai["title_car"]?.string ?? ""
+                let Images = car_Detai["images"]?.array
+                let Power_Motor = car_Detai["Power_Motor"]?.string ?? ""
+                var imageAr = [String]()
+                var count = 0
+                for image in Images!{
+                    if let imag =  image["img\(count)"].string {
+                        imageAr.append(imag)
+                        count = count + 1
+                    }
+                    
+                }
+                let carDat = DetailsCarModelById.init(title_car: title_car, main_img: main_img, images: imageAr, iD: ID, price: price, price_offer: price_offer, made_year: made_year, diesel: Diesel, type_Motor: type_Motor, power_Motor: Power_Motor, doors: Doors, bags: bags, speed: Speed, total_pages: bags)
+                complation(carDat, true)
+            }
+        }
+        
+    }
+    
+
+}

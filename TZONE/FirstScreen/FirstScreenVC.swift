@@ -20,13 +20,18 @@ class FirstScreenVC: Segue {
   
     @IBAction func SignInAction(_ sender: Any) {
         
-        goVC("LoginVCV")
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "LoginVCV") as? LoginVCV{
+            present(vc, animated: true, completion: nil)
+        }
         
         
     }
     
     @IBAction func SkipAction(_ sender: Any) {
         
-        goVC("main")
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "main"){
+            present(vc, animated: true, completion: nil)
+        }
+        
     }
 }

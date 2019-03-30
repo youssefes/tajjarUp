@@ -32,11 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UIApplication.statusBarBackgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        if let userId = DataManager.gatDataByKey(Key: "ID"){
-            print(userId)
-            let tab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "main")
-            window?.rootViewController = tab
-        }
+//        if let userId = DataManager.gatDataByKey(Key: "ID"){
+//            print(userId)
+//            let tab = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "main")
+//            window?.rootViewController = tab
+//        }
         
        
          IQKeyboardManager.shared.enable = true

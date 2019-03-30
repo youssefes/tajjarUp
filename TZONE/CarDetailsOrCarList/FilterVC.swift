@@ -9,11 +9,13 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import NHRangeSlider
 
-class FilterVC: UIViewController {
+class FilterVC: UIViewController, NHRangeSliderViewDelegate {
     @IBOutlet weak var carName: UITextField!
     @IBOutlet weak var carType: UITextField!
     
+    @IBOutlet weak var rangeSliderV: UIView!
     @IBOutlet weak var carYear: UITextField!
     
     @IBOutlet weak var priceLbl: UILabel!
@@ -23,10 +25,51 @@ class FilterVC: UIViewController {
     @IBOutlet weak var FilterButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-self.FilterButton.roundCorners(cornerRadius: 25)
+        
+        slider()
+       
+        
+        self.FilterButton.roundCorners(cornerRadius: 25)
         self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
+    
+    func slider(){
+        
+        let sliderCustomStringView = NHRangeSliderView(frame: CGRect(x : 40, y: self.rangeSliderV.frame.origin.y, width: self.rangeSliderV.frame.width - 45, height: 80) )
+        sliderCustomStringView.delegate = self
+        sliderCustomStringView.trackHighlightTintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+       sliderCustomStringView.lowerLabel?.font = UIFont(name: "Avenir", size: 11)
+        sliderCustomStringView.upperLabel?.font = UIFont(name: "Avenir", size: 11)
+        sliderCustomStringView.lowerLabel?.textColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        sliderCustomStringView.upperLabel?.textColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        
+        sliderCustomStringView.stepValue = 10
+        sliderCustomStringView.minimumValue = 40.0
+        sliderCustomStringView.maximumValue = 300.0
+        sliderCustomStringView.gapBetweenThumbs = 10.0
+        sliderCustomStringView.gapBetweenThumbs = 20
+        sliderCustomStringView.upperValue = 300.0
+        sliderCustomStringView.lowerValue = 40.0
+        sliderCustomStringView.thumbSize = 20
+        
+        sliderCustomStringView.thumbLabelStyle = .FOLLOW
+        sliderCustomStringView.lowerDisplayStringFormat = "%.0f" + "KD"
+        priceLbl.text = "\(sliderCustomStringView.lowerValue) - \(sliderCustomStringView.upperValue)"
+        sliderCustomStringView.upperDisplayStringFormat = "%.0f" + "KD"
+        sliderCustomStringView.sizeToFit()
+   
+        
+        self.view.addSubview(sliderCustomStringView)
+    }
+
+    func sliderValueChanged(slider: NHRangeSlider?) {
+        guard let lower = slider?.lowerValue , let upper = slider?.upperValue else{
+            return
+        }
+        self.priceLbl.text = "\(lower) - \(upper)"
+    }
+    
     @IBAction func getFiltercarBtn(_ sender: Any) {
         
         guard let name = carName.text,!name.isEmpty,let carTypr = carType.text,!carTypr.isEmpty,let color = carColor.text,!color.isEmpty,let model = carModel.text,!model.isEmpty,let year = carYear.text,!year.isEmpty , let price = priceLbl.text else{

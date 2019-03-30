@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C2E07ED8B13A081AC2332757E2C3519E"
+               BlueprintIdentifier = "B7728C24990E48AEA602C2F6CB1A81AC"
                BlueprintName = "Pods-TZONE"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "Pods-TZONE.framework">
